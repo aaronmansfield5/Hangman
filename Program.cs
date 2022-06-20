@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -6,7 +6,7 @@ namespace Hangman
 {
     public class Player
     {
-        public List<string> guessed { get; set; } = new List<string>();
+        public List<char> guessed { get; set; } = new List<char>();
         public int guesses { get; set; } = 0;
         public string Name { get; set; }
     }
@@ -30,7 +30,7 @@ namespace Hangman
             {
                 Console.WriteLine($"{p2.Name} please guess a letter in the word: {ShowWord(toGuess, p2)}");
                 string guess = Console.ReadLine();
-                p2.guessed.Add(guess);
+                p2.guessed.Add(guess[0]);
                 if(ShowWord(toGuess, p2) == toGuess)
                 {
                     guessed = true;
@@ -57,18 +57,7 @@ namespace Hangman
         }
         static string ShowWord(string word, Player p2)
         {
-            string toReturn = "";
-            foreach(string letter in word.ToCharArray().Select(i => i.ToString().ToLower()))
-            {
-                if(p2.guessed.Contains(letter))
-                {
-                    toReturn += letter;
-                } else
-                {
-                    toReturn += "_";
-                }
-            }
-            return toReturn;
+            return new string(word.Select(i => p2.guessed.Contains(i) ? i : '_').ToArray());
         }
     }
 }
